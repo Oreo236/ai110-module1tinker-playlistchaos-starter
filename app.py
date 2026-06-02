@@ -213,7 +213,13 @@ def profile_sidebar():
     profile["favorite_genre"] = st.sidebar.selectbox(
         "Favorite genre",
         options=["rock", "lofi", "pop", "jazz", "electronic", "ambient", "other"],
-        index=0,
+        index=(
+            ["rock", "lofi", "pop", "jazz", "electronic", "ambient", "other"].index(
+                profile.get("favorite_genre", "rock")
+            )
+            if profile.get("favorite_genre", None) in ["rock", "lofi", "pop", "jazz", "electronic", "ambient", "other"]
+            else 0
+        ),
     )
 
     profile["include_mixed"] = st.sidebar.checkbox(
@@ -250,9 +256,20 @@ def add_song_sidebar():
         }
         if title and artist:
             normalized = normalize_song(song)
-            all_songs = st.session_state.songs[:]
-            all_songs.append(normalized)
-            st.session_state.songs = all_songs
+
+            duplicate = any(
+                s.get("title", "").lower() == normalized["title"].lower()
+                and s.get("artist", "").lower() == normalized["artist"].lower()
+                for s in st.session_state.songs
+            )
+            if duplicate:
+                st.sidebar.error(
+                    f'"{normalized["title"]}" by {normalized["artist"]} is already in the playlist.'
+                )
+            else:
+                all_songs = st.session_state.songs[:]
+                all_songs.append(normalized)
+                st.session_state.songs = all_songs
 
 
 def playlist_tabs(playlists):
