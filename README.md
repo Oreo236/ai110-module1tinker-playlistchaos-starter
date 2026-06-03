@@ -1,3 +1,11 @@
+<div>
+    <a href="https://www.loom.com/share/3a299d2efd0f495abf7c7f2441336d74">
+      <p>Lab One Fixes to Music Playlist App - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/3a299d2efd0f495abf7c7f2441336d74">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/3a299d2efd0f495abf7c7f2441336d74-daa406038711b2b9-full-play.gif#t=0.1">
+    </a>
+  </div>
 # Playlist Chaos
 
 Your AI assistant tried to build a smart playlist generator. The app runs, but some of the behavior is unpredictable. Your task is to explore the app, investigate the code, and use an AI assistant to debug and improve it.
