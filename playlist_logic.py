@@ -47,6 +47,8 @@ def normalize_song(raw: Song) -> Song:
     tags = raw.get("tags", [])
     if isinstance(tags, str):
         tags = [tags]
+    # normalize tags to lowercase strings for consistent matching
+    tags = [str(t).strip().lower() for t in tags if t]
 
     return {
         "title": title,
@@ -70,8 +72,19 @@ def classify_song(song: Song, profile: Dict[str, object]) -> str:
     hype_keywords = ["rock", "punk", "party"]
     chill_keywords = ["lofi", "ambient", "sleep"]
 
-    is_hype_keyword = any(k in genre for k in hype_keywords)
-    is_chill_keyword = any(k in genre for k in chill_keywords)
+    tags = song.get("tags", []) or []
+
+    def _any_in(value, keywords):
+        v = str(value or "").lower()
+        if any(k in v for k in keywords):
+            return True
+        for t in tags:
+            if any(k in str(t) for k in keywords):
+                return True
+        return False
+
+    is_hype_keyword = _any_in(genre, hype_keywords)
+    is_chill_keyword = _any_in(genre, chill_keywords)
 
     if genre == favorite_genre or energy >= hype_min_energy or is_hype_keyword:
         return "Hype"

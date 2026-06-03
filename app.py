@@ -260,6 +260,7 @@ def add_song_sidebar():
             duplicate = any(
                 s.get("title", "").lower() == normalized["title"].lower()
                 and s.get("artist", "").lower() == normalized["artist"].lower()
+                and s.get("genre", "").lower() == normalized["genre"].lower()
                 for s in st.session_state.songs
             )
             if duplicate:
